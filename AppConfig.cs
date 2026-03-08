@@ -11,7 +11,6 @@ record ResolutionEntry(int Width, int Height, int RefreshRate)
 class AppConfig
 {
     public List<ResolutionEntry> Resolutions { get; set; } = [];
-    public List<int> Scales { get; set; } = [100, 125, 150, 200];
 
     [JsonIgnore]
     public static string ConfigPath { get; } = Path.Combine(
@@ -38,6 +37,5 @@ class AppConfig
     static AppConfig Default() => new()
     {
         Resolutions = [new(1920, 1080, 60), new(2560, 1440, 60)],
-        Scales = [100, 125, 150, 200],
     };
 }

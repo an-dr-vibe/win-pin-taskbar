@@ -20,6 +20,7 @@ sealed class TrayApp : IDisposable
         _tray.MouseClick += OnMouseClick;
         Refresh();
         SystemEvents.UserPreferenceChanged += OnPreferenceChanged;
+        SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
     }
 
     void OnMouseClick(object? sender, MouseEventArgs e)
@@ -36,6 +37,8 @@ sealed class TrayApp : IDisposable
         if (e.Category == UserPreferenceCategory.General)
             Refresh();
     }
+
+    void OnDisplaySettingsChanged(object? sender, EventArgs e) => Refresh();
 
     void Refresh()
     {
@@ -75,18 +78,17 @@ sealed class TrayApp : IDisposable
         }
         menu.Items.Add(resSub);
 
-        // Scale submenu
+        // Scale submenu — options come from the display driver, applied immediately
         var scaleSub = new ToolStripMenuItem("Scale");
-        int curScale = DisplayHelper.GetCurrentScale();
-        foreach (int s in _config.Scales)
+        var (curScale, availableScales) = DisplayHelper.GetScaleInfo();
+        foreach (int s in availableScales)
         {
-            bool isCurrent = s == curScale;
-            var item = new ToolStripMenuItem($"{s}%") { Checked = isCurrent };
+            var item = new ToolStripMenuItem($"{s}%") { Checked = s == curScale };
             int scale = s;
             item.Click += (_, _) =>
             {
-                DisplayHelper.SetScale(scale);
-                _tray.ShowBalloonTip(4000, "Scale", $"Scale set to {scale}%. Sign out to apply fully.", ToolTipIcon.Info);
+                if (!DisplayHelper.SetScale(scale))
+                    _tray.ShowBalloonTip(3000, "Scale", $"Failed to set {scale}%", ToolTipIcon.Warning);
                 Refresh();
             };
             scaleSub.DropDownItems.Add(item);
@@ -150,6 +152,7 @@ sealed class TrayApp : IDisposable
         if (_disposed) return;
         _disposed = true;
         SystemEvents.UserPreferenceChanged -= OnPreferenceChanged;
+        SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
         _tray.Visible = false;
         _tray.Dispose();
         if (_hicon != 0) DestroyIcon(_hicon);
