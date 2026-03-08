@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build)",
+      "Bash(where dotnet)",
+      "Read(//c/Program Files/dotnet/**)",
+      "Bash(\"/c/Program Files/dotnet/dotnet.exe\" --list-sdks)",
+      "Bash(\"/c/Program Files/dotnet/dotnet.exe\" --version)",
+      "Read(//c/Program Files/Microsoft Visual Studio//**)",
+      "Read(//c/Program Files \\(x86\\)/Microsoft Visual Studio//**)",
+      "Bash(flutter --version)",
+      "Bash(dart --version)",
+      "Bash(winget install Microsoft.DotNet.SDK.8 --silent --accept-package-agreements --accept-source-agreements)",
+      "Bash(where magick)",
+      "Bash(where inkscape)",
+      "Bash(where ffmpeg)",
+      "Bash(where dotnet-script)",
+      "Bash(dotnet tool list -g)",
+      "Bash(mkdir -p /tmp/ico-gen)",
+      "Bash(/tmp/ico-gen/ico-gen.csproj:*)",
+      "Read(//c/tmp/ico-gen/**)",
+      "Bash(dotnet run -- \"c:/00_Code/@an-dr-vibe/win-pin-taskbar/assets/sidebar-pin-pinned-dark.svg\" \"c:/00_Code/@an-dr-vibe/win-pin-taskbar/app.ico\")",
+      "Bash(powershell -Command \"[System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File build.ps1)"
+    ]
+  }
+}

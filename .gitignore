@@ -1,0 +1,24 @@
+# Build output
+bin/
+obj/
+
+# Generated files
+*.ico
+
+# User-specific config (next to exe, not in source)
+config.json
+
+# Tools scratch directory
+tools/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Rider
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
